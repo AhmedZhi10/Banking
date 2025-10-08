@@ -1,0 +1,28 @@
+# Django Monolith
+Django==5.2.7
+djangorestframework==3.16.1
+django-cors-headers==4.9.0
+djangorestframework-simplejwt==5.5.1
+sqlparse==0.5.3
+
+# FastAPI Microservice
+fastapi==0.118.0
+uvicorn[standard]==0.37.0
+starlette==0.48.0
+SQLAlchemy==2.0.43
+pydantic==2.11.7
+pydantic-settings==2.6.1
+
+# Authentication & Security
+passlib==1.7.4
+bcrypt==5.0.0
+PyJWT==2.10.1
+python-jose==3.5.0
+
+# Database Drivers
+psycopg2-binary==2.9.10
+mysqlclient==2.2.7
+
+# Utilities
+python-dotenv==1.1.0
+requests==2.32.4
