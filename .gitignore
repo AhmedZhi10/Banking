@@ -1,0 +1,14 @@
+bank_env/
+trans_env/
+venv/
+env/
+.env
+pycache/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+*.log
+.vscode/
+.idea/
+.DS_Store

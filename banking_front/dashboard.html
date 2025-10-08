@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/styles/style.css">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white shadow-md flex flex-col">
+            <div class="p-6 border-b">
+                <h1 class="text-2xl font-bold text-blue-600">BankDash</h1>
+            </div>
+            <nav class="flex-grow p-4">
+                <a href="#" class="flex items-center p-3 my-2 text-gray-700 bg-blue-100 rounded-lg">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="ml-3 font-semibold">Dashboard</span>
+                </a>
+                <!-- Other links can be added here -->
+            </nav>
+            <div class="p-4 border-t">
+                <button id="logout-btn" class="w-full flex items-center p-3 text-red-500 hover:bg-red-50 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span class="ml-3 font-semibold">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div id="profile-view">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Welcome Back!</h2>
+                        <p class="text-gray-500" id="profile-name">Loading...</p>
+                    </div>
+                </div>
+                <!-- Profile Details Card -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-gray-700 border-b pb-4">Profile Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Email Address</p>
+                            <p class="font-medium text-gray-800" id="profile-email">Loading...</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">National ID</p>
+                            <p class="font-medium text-gray-800" id="profile-national-id">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Accounts List -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Your Accounts</h3>
+                    <div id="accounts-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Account cards will be dynamically inserted here -->
+                        <div class="p-6 border rounded-lg bg-gray-50 text-center text-gray-500">Loading accounts...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Transactions Modal (Initially Hidden) -->
+    <div id="transactions-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="p-6 border-b flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Transactions</h2>
+                    <p class="text-sm text-gray-500" id="modal-account-number">For Account: ...</p>
+                </div>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 flex-grow overflow-y-auto">
+                <!-- New Transaction Form -->
+                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                    <h3 class="font-semibold mb-3 text-gray-700">New Transaction</h3>
+                    <form id="new-transaction-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        <input type="hidden" id="transaction-account-id">
+                        <div>
+                            <label for="transaction-type" class="block text-sm font-medium text-gray-600">Type</label>
+                            <select id="transaction-type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="deposit">Deposit</option>
+                                <option value="withdrawal">Withdrawal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="transaction-amount" class="block text-sm font-medium text-gray-600">Amount (EGP)</label>
+                            <input type="number" id="transaction-amount" step="0.01" min="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g., 500.00">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">Submit</button>
+                    </form>
+                    <div id="transaction-message-area" class="mt-3 text-center text-white text-sm p-2 rounded-lg hidden"></div>
+                </div>
+
+                <!-- Transactions History -->
+                <h3 class="font-semibold mb-3 text-gray-700">History</h3>
+                <div id="transactions-history-list" class="space-y-3">
+                    <!-- Transaction items will be inserted here -->
+                    <p class="text-center text-gray-500">Loading history...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import main script files -->
+    <script src="static/scripts/main.js"></script>
+    <script src="static/scripts/api.js"></script>
+    <script src="static/scripts/pages/dashboard.js"></script>
+</body>
+</html>
